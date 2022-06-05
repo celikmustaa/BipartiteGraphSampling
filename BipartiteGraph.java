@@ -6,7 +6,6 @@ public class BipartiteGraph {
     public HashMap<Integer, Node> L;    // node_id: node
     public HashMap<Integer, Node> R;    // node_id: node
     public HashMap<Integer, Node> map; // all nodes
-
     public ArrayList<ArrayList<Node>> edge_list; // [[node1, node2],[n3, n4] ...]
 
     public BipartiteGraph() {
@@ -42,7 +41,7 @@ public class BipartiteGraph {
 
     public void connect(int left_id, int right_id){
         if(R.containsKey(left_id) || L.containsKey(right_id) || left_id == right_id){
-            // System.out.println("SU KEYLERDE SIKINTI VAR ANNEM: " + left_id + " " + right_id + " ");
+            // System.out.println("SU KEYLERDE SIKINTI VAR: " + left_id + " " + right_id + " ");
             return;
         }
 

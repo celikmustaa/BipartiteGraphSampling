@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -29,7 +30,6 @@ public class Sample {
     }
 
 
-
     // Algorithm 4
     public double VSamp(int k){
         double final_result = 0;
@@ -43,6 +43,7 @@ public class Sample {
         return final_result/k;
     }
 
+
     // Algorithm 5
     public double ESamp(int k){
         double final_result = 0;
@@ -54,6 +55,7 @@ public class Sample {
         }
         return final_result/k;
     }
+
 
     // Algorithm 6
     public double WSamp(int k){
@@ -89,6 +91,35 @@ public class Sample {
         return final_result/k;
 
     }
+
+
+    // Algorithm 7
+    public long Fast_EBFC(ArrayList<Node> edge){
+        long beta = 0;
+        Node u = edge.get(0);
+        Node v = edge.get(1);
+        Node w = u.adjacency_list.get(ThreadLocalRandom.current().nextInt(0, u.adjacency_list.size()));
+        Node x = v.adjacency_list.get(ThreadLocalRandom.current().nextInt(0, v.adjacency_list.size()));
+
+        // TODO use a hashmap to optimize this
+        if(w.adjacency_list.contains(x)){
+            return (long) u.degree*v.degree;
+        }
+        return beta;
+    }
+
+
+    // Algorithm 8
+    public double ESPAR(double p) throws IOException {
+        BipartiteGraph graph = CreateGraph.createGraph(p);
+        long beta = ExactCount.ExactBFC(graph);
+
+        return beta * Math.pow(p, -4);
+    }
+
+
+    // Algorithm 9
+
 
 
     // returns an index so that randomNumber is either smaller than or equal to the number in
