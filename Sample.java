@@ -119,7 +119,12 @@ public class Sample {
 
 
     // Algorithm 9
+    public double CLRSPAR(int N) throws IOException {
+        BipartiteGraph graph = CreateGraph.createGraph(N);
+        long beta = ExactCount.ExactBFC(graph);
 
+        return beta * Math.pow((double) 1/N, -3);
+    }
 
 
     // returns an index so that randomNumber is either smaller than or equal to the number in
