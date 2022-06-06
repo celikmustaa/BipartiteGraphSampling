@@ -27,15 +27,14 @@ public class CreateGraph {
 
     // for ESPAR
     public static BipartiteGraph createGraph(double p) throws IOException {
-        Random generator = new Random();
-        double randomDouble = generator.nextDouble();
-
         BipartiteGraph graph = new BipartiteGraph();
 
         BufferedReader br = new BufferedReader((new FileReader(ReadFile.write_location)));
         String line;
 
         while ((line = br.readLine()) != null){
+            Random generator = new Random();
+            double randomDouble = generator.nextDouble();
             if(randomDouble < p){
                 String[] splitted = line.split(" ");
                 int left_id = Integer.parseInt(splitted[0]);
