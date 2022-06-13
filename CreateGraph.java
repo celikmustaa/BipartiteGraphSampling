@@ -18,10 +18,6 @@ public class CreateGraph {
         String line;
         while ((line = br.readLine()) != null){
             String[] splitted = line.split(" ");
-//            if(splitted.length != 2){
-//                System.out.println(line);
-//                continue;
-//            }
             int left_id = Integer.parseInt(splitted[0]);
             int right_id = Integer.parseInt(splitted[1]);
             graph.connect(left_id, right_id);
@@ -44,9 +40,6 @@ public class CreateGraph {
             randomDouble = generator.nextDouble();
             if(randomDouble < p){
                 String[] splitted = line.split(" ");
-//                if(splitted.length != 2){
-//                    continue;
-//                }
                 int left_id = Integer.parseInt(splitted[0]);
                 int right_id = Integer.parseInt(splitted[1]);
                 graph.connect(left_id, right_id);
@@ -66,9 +59,6 @@ public class CreateGraph {
         String line;
         while ((line = br.readLine()) != null){
             String[] splitted = line.split(" ");
-//            if(splitted.length != 2){
-//                continue;
-//            }
             int left_id = Integer.parseInt(splitted[0]);
             int right_id = Integer.parseInt(splitted[1]);
             if(!colors.containsKey(left_id)){

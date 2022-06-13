@@ -25,21 +25,6 @@ public class BipartiteGraph {
         return count;
     }
 
-//    public void addLeft(int node_id){
-//        if (!this.L.containsKey(node_id)){
-//            Node node = new Node(node_id);
-//            this.L.put(node.id, node);
-//            this.map.put(node.id, node);
-//        }
-//    }
-//
-//    public void addRight(int node_id){
-//        if (!this.R.containsKey(node_id)){
-//            Node node = new Node(node_id);
-//            this.R.put(node.id, node);
-//            this.map.put(node.id, node);
-//        }
-//    }
 
     public void addNode(int id){
         if(!this.map.containsKey(id)){
