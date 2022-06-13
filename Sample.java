@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -45,13 +46,21 @@ public class Sample {
 
 
     // Algorithm 5
-    public double ESamp(int k){
+    public double ESamp(int k, int ident){ // if ident == 1 then we need to use FastEBFC
         double final_result = 0;
         for(int i=0; i<k; i++){
             Random generator = new Random();
-            ArrayList<Node> randomEdge = this.graph.edge_list.get(generator.nextInt(this.graph.edge_list.size()));
+            ArrayList<Integer> randomEdge = this.graph.edge_list.get(generator.nextInt(this.graph.edge_list.size()));
 
-            final_result += ( ((double)ExactCount.eBFC(randomEdge) ) * this.graph.edge_list.size()) / 4;
+            if(ident == 1){
+                final_result += ( ((double) FastEBFC(randomEdge) ) * this.graph.edge_list.size()) / 4;
+            }
+            else{
+                ArrayList<Node> node_array = new ArrayList<>();
+                node_array.add(graph.map.get(randomEdge.get(0))); node_array.add(graph.map.get(randomEdge.get(1)));
+                final_result += ( ((double)ExactCount.eBFC(node_array) ) * this.graph.edge_list.size()) / 4;
+            }
+
         }
         return final_result/k;
     }
@@ -62,26 +71,35 @@ public class Sample {
         double final_result = 0;
         for(int x=0; x<k; x++){
             long randomLong = ThreadLocalRandom.current().nextLong(1, this.number_of_wedges + 1);
-
             Node node_u = this.graph.map.get(this.indices[binarySearch(randomLong, this.cumulative_wedge_array)]);
+
             int randomInt1 = ThreadLocalRandom.current().nextInt(0, node_u.adjacency_list.size());
             int randomInt2 = ThreadLocalRandom.current().nextInt(0, node_u.adjacency_list.size() - 1);
             if(randomInt2 >= randomInt1){
                 randomInt2++;
             }
 
-            Node node_v = node_u.adjacency_list.get(randomInt1);
-            Node node_w = node_u.adjacency_list.get(randomInt2);
+            List<Node> keysAsArray = new ArrayList<>(node_u.adjacency_list.keySet());
+            Node node_v = keysAsArray.get(randomInt1);
+            Node node_w = keysAsArray.get(randomInt2);
 
             long beta = 0;
 
-            for(Node node1: node_v.adjacency_list){
-                for(Node node2: node_w.adjacency_list){
-                    if(node1.id == node2.id){
+            if(node_v.degree < node_w.degree){
+                for(Node node1: node_v.adjacency_list.keySet()){
+                    if(node_w.adjacency_list.containsKey(node1)){
                         beta += 1;
                     }
                 }
             }
+            else{
+                for(Node node1: node_w.adjacency_list.keySet()){
+                    if(node_v.adjacency_list.containsKey(node1)){
+                        beta += 1;
+                    }
+                }
+            }
+
 
             final_result += (double) beta * this.number_of_wedges / 4 - 1;
 
@@ -94,15 +112,17 @@ public class Sample {
 
 
     // Algorithm 7
-    public long Fast_EBFC(ArrayList<Node> edge){
+    public long FastEBFC(ArrayList<Integer> edge){
         long beta = 0;
-        Node u = edge.get(0);
-        Node v = edge.get(1);
-        Node w = u.adjacency_list.get(ThreadLocalRandom.current().nextInt(0, u.adjacency_list.size()));
-        Node x = v.adjacency_list.get(ThreadLocalRandom.current().nextInt(0, v.adjacency_list.size()));
+        Node u = graph.map.get(edge.get(0));
+        Node v = graph.map.get(edge.get(1));
 
-        // TODO use a hashmap to optimize this
-        if(w.adjacency_list.contains(x)){
+        List<Node> keysAsArray = new ArrayList<>(u.adjacency_list.keySet());
+        Node w = keysAsArray.get(ThreadLocalRandom.current().nextInt(0, u.adjacency_list.size()));
+        keysAsArray = new ArrayList<>(v.adjacency_list.keySet());
+        Node x = keysAsArray.get(ThreadLocalRandom.current().nextInt(0, v.adjacency_list.size()));
+
+        if(w.adjacency_list.containsKey(x)){
             return (long) u.degree*v.degree;
         }
         return beta;

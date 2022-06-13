@@ -6,42 +6,53 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class CreateGraph {
+    // public static String path = "C:\\Users\\musta\\Desktop\\Hacettepe\\DREAM\\Orkut Data\\download.tsv.orkut-groupmemberships\\orkut-groupmemberships\\out.orkut-groupmemberships";
+    public static String path = "C:\\Users\\musta\\Desktop\\Hacettepe\\DREAM\\amazon-ratings\\out.amazon-ratings";
 
     public static BipartiteGraph createGraph() throws IOException {
 
         BipartiteGraph graph = new BipartiteGraph();
 
-        BufferedReader br = new BufferedReader((new FileReader(ReadFile.write_location)));
+        BufferedReader br = new BufferedReader((new FileReader(path)));
 
         String line;
         while ((line = br.readLine()) != null){
             String[] splitted = line.split(" ");
+//            if(splitted.length != 2){
+//                System.out.println(line);
+//                continue;
+//            }
             int left_id = Integer.parseInt(splitted[0]);
             int right_id = Integer.parseInt(splitted[1]);
             graph.connect(left_id, right_id);
 
         }
-
+        graph.split();
         return graph;
     }
 
     // for ESPAR
     public static BipartiteGraph createGraph(double p) throws IOException {
+        Random generator = new Random();
+        double randomDouble;
         BipartiteGraph graph = new BipartiteGraph();
 
-        BufferedReader br = new BufferedReader((new FileReader(ReadFile.write_location)));
+        BufferedReader br = new BufferedReader((new FileReader(path)));
         String line;
 
         while ((line = br.readLine()) != null){
-            Random generator = new Random();
-            double randomDouble = generator.nextDouble();
+            randomDouble = generator.nextDouble();
             if(randomDouble < p){
                 String[] splitted = line.split(" ");
+//                if(splitted.length != 2){
+//                    continue;
+//                }
                 int left_id = Integer.parseInt(splitted[0]);
                 int right_id = Integer.parseInt(splitted[1]);
                 graph.connect(left_id, right_id);
             }
         }
+        graph.split();
         return graph;
     }
 
@@ -49,12 +60,15 @@ public class CreateGraph {
     public static BipartiteGraph createGraph(int N) throws IOException {
 
         BipartiteGraph graph = new BipartiteGraph();
-        BufferedReader br = new BufferedReader((new FileReader(ReadFile.write_location)));
+        BufferedReader br = new BufferedReader((new FileReader(path)));
         HashMap<Integer, Integer> colors = new HashMap<>();
 
         String line;
         while ((line = br.readLine()) != null){
             String[] splitted = line.split(" ");
+//            if(splitted.length != 2){
+//                continue;
+//            }
             int left_id = Integer.parseInt(splitted[0]);
             int right_id = Integer.parseInt(splitted[1]);
             if(!colors.containsKey(left_id)){
@@ -67,6 +81,7 @@ public class CreateGraph {
                 graph.connect(left_id, right_id);
             }
         }
+        graph.split();
         return graph;
     }
 

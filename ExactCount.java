@@ -7,28 +7,28 @@ public class ExactCount {
     public static long ExactBFC(BipartiteGraph graph){
         long count = 0;
 
-        ArrayList<Node> A;
+        ArrayList<Integer> A;
 
         if(graph.sumOfSquaresOfDegrees(graph.L) < graph.sumOfSquaresOfDegrees(graph.R)){
-            A = new ArrayList<>(graph.R.values());
+            A = new ArrayList<>(graph.R.keySet());
         }
         else{
-            A = new ArrayList<>(graph.L.values());
+            A = new ArrayList<>(graph.L.keySet());
         }
 
-        for(Node v: A){
+        for(int v: A){
             HashMap<Node, Integer> map = new HashMap<>();  // C
 
-            for(Node u: v.adjacency_list){
-                for(Node w: u.adjacency_list){
-                    if(w.degree < v.degree || (w.degree == v.degree && w.id < v.id)){
+            for(Node u: graph.map.get(v).adjacency_list.keySet()){
+                for(Node w: u.adjacency_list.keySet()){
+                    if(w.degree < graph.map.get(v).degree || (w.degree == graph.map.get(v).degree && w.id < graph.map.get(v).id)){
                         map.put( w, ((map.containsKey(w)) ? map.get(w)+1 : 0) );
                     }
                 }
             }
 
             for(Node w: map.keySet()){
-                count += ((long) (map.get(w)) * (map.get(w) + 1) / 2);  // do I need to take long statement outside of the paranthesis
+                count += ((long) (map.get(w)) * (map.get(w) + 1) / 2);
             }
         }
 
@@ -42,8 +42,8 @@ public class ExactCount {
 
         HashMap<Node, Integer> map = new HashMap<>();  // C
 
-        for(Node u: v.adjacency_list){
-            for(Node w: u.adjacency_list){
+        for(Node u: v.adjacency_list.keySet()){
+            for(Node w: u.adjacency_list.keySet()){
                 if(w.id != v.id){
                     map.put( w, ((map.containsKey(w)) ? map.get(w)+1 : 0) );
                 }
@@ -62,14 +62,9 @@ public class ExactCount {
     public static long eBFC(ArrayList<Node> edge){
         long count = 0;
 
-        HashMap<Node, Integer> neighbours_of_v = new HashMap<>();
-        for(Node x: edge.get(1).adjacency_list){
-            neighbours_of_v.put(x, 1);
-        }
-
-        for(Node w: edge.get(0).adjacency_list){
-            for(Node x: w.adjacency_list){
-                if(neighbours_of_v.containsKey(x)){
+        for(Node w: edge.get(0).adjacency_list.keySet()){
+            for(Node x: w.adjacency_list.keySet()){
+                if(edge.get(1).adjacency_list.containsKey(x)){
                     count += 1;
                 }
             }
@@ -77,7 +72,6 @@ public class ExactCount {
 
         return count;
     }
-
 
 
 }     // class
