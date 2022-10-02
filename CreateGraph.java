@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class CreateGraph {
-    // public static String path = "C:\\Users\\musta\\Desktop\\Hacettepe\\DREAM\\Orkut Data\\download.tsv.orkut-groupmemberships\\orkut-groupmemberships\\out.orkut-groupmemberships";
+    //public static String path = "C:\\Users\\musta\\Desktop\\Hacettepe\\DREAM\\brunson_revolution\\out.brunson_revolution_revolution";
     public static String path = "C:\\Users\\musta\\Desktop\\Hacettepe\\DREAM\\amazon-ratings\\out.amazon-ratings";
 
     public static BipartiteGraph createGraph() throws IOException {
@@ -19,11 +19,11 @@ public class CreateGraph {
         while ((line = br.readLine()) != null){
             String[] splitted = line.split(" ");
             int left_id = Integer.parseInt(splitted[0]);
-            int right_id = Integer.parseInt(splitted[1]);
+            int right_id = (-1) * Integer.parseInt(splitted[1]); // 300 iQ O YE
             graph.connect(left_id, right_id);
 
         }
-        graph.split();
+        //graph.split();
         return graph;
     }
 
@@ -45,7 +45,7 @@ public class CreateGraph {
                 graph.connect(left_id, right_id);
             }
         }
-        graph.split();
+        //graph.split();
         return graph;
     }
 
@@ -71,7 +71,7 @@ public class CreateGraph {
                 graph.connect(left_id, right_id);
             }
         }
-        graph.split();
+        //graph.split();
         return graph;
     }
 
